@@ -1,11 +1,21 @@
-const square =  document.querySelectorAll(".files")
-const square2 =  document.querySelectorAll(".square")
+const arrayOfFiles =  document.querySelectorAll(".files")
+// const square2 =  document.querySelectorAll(".square")
 const filesNameArray = ["a" ,"b" ,"c", "d" ,"e" ,"f", "g" ,"h"];
 
-for( let a of square ){
-    // console.log(a);
-    console.log(a.children);
+let fillNumber = 0
+
+for( let a of arrayOfFiles ){
+    let countNumber = 1;
+    for(let el of a.children){
+el.setAttribute("id",filesNameArray[fillNumber] +countNumber)
+console.log('el :', el);
+        countNumber++
+    }
+    // a-id
+    fillNumber++ 
 }
-// for( let a of square2 ){
-//     console.log(a);
+
+
+// for( let b of square2 ){
+//     console.log(b);
 // }
