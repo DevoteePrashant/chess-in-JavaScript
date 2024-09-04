@@ -82,35 +82,52 @@ document.getElementById("reset-btn").addEventListener("click", function () {
     location.reload();
 });
 
-
+let gameEnded = false;
 tog = 1
 
 document.querySelectorAll('.box').forEach(item => {
 
 
+
+
+
+
+
+
+
     item.addEventListener('click', function () {
 
+        if (gameEnded) return; 
+
         if (item.style.backgroundColor == 'green' && item.innerText.length == 0) {
-            tog = tog + 1
-        }
-
-        else if (item.style.backgroundColor == 'green' && item.innerText.length !== 0) {
-
+            tog = tog + 1;
+        } else if (item.style.backgroundColor == 'green' && item.innerText.length !== 0) {
             document.querySelectorAll('.box').forEach(i => {
                 if (i.style.backgroundColor == 'blue') {
-                    blueId = i.id
-                    blueText = i.innerText
+                    blueId = i.id;
+                    blueText = i.innerText;
 
-                    document.getElementById(blueId).innerText = ''
-                    item.innerText = blueText
-                    coloring()
-                    insertImage()
-                    tog = tog + 1
+                    // Check if the White King is captured
+                        if (item.innerText == 'Wking') {
+                            document.getElementById('message').innerText = 'Bking wins!';
+                            gameEnded = true; 
+                        }
 
+                        if (item.innerText == 'Bking') {
+                            document.getElementById('message').innerText = 'wking wins!';
+                            gameEnded = true; 
+                        }
+
+                    document.getElementById(blueId).innerText = '';
+                    item.innerText = blueText;
+                    coloring();
+                    insertImage();
+                    tog = tog + 1;
                 }
-            })
+            });
         }
 
+        if (gameEnded) return; 
 
 
         getId = item.id
@@ -265,8 +282,6 @@ document.querySelectorAll('.box').forEach(item => {
             // QUEEN
 
             if (item.innerText == `${toggle}queen`) {
-
-
                 for (let i = 1; i < 9; i++) {
 
                     if ((a + i * 100) < 900 && document.getElementById(`b${a + i * 100}`).innerText == 0) {
@@ -356,18 +371,12 @@ document.querySelectorAll('.box').forEach(item => {
                         break
                     }
                 }
-
-
-
                 item.style.backgroundColor = 'blue'
-
             }
 
             // BISHOP
 
             if (item.innerText == `${toggle}bishop`) {
-
-
                 for (let i = 1; i < 9; i++) {
                     if (i < (900 - aup) / 100 && i < 9 - aside && document.getElementById(`b${a + i * 100 + i}`).innerText.length == 0) {
                         document.getElementById(`b${a + i * 100 + i}`).style.backgroundColor = 'green'
@@ -411,11 +420,7 @@ document.querySelectorAll('.box').forEach(item => {
                         break
                     }
                 }
-
-
-
-                item.style.backgroundColor = 'blue'
-
+                 item.style.backgroundColor = 'blue'
             }
 
             // ROOK
@@ -465,14 +470,11 @@ document.querySelectorAll('.box').forEach(item => {
                         break
                     }
                 }
-
                 item.style.backgroundColor = 'blue'
             }
-
         }
 
         // Toggling the turn
-
         if (tog % 2 !== 0) {
             document.getElementById('tog').innerText = "White's Turn"
             whosTurn('W')
@@ -481,22 +483,123 @@ document.querySelectorAll('.box').forEach(item => {
             document.getElementById('tog').innerText = "Black's Turn"
             whosTurn('B')
         }
+        
+        
 
         reddish()
+  })
+})
+   
+function startTimer(duration, display) {
+    let timer = duration, minutes, seconds;
+    
+    const interval = setInterval(() => {
+        minutes = Math.floor(timer / 60);
+        seconds = timer % 60;
 
-// Check for win condition B: all boxes are empty
-const isWin = Array.from(document.querySelectorAll('.box')).every(win => win.innerText.length === 0);
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
 
-if (isWin) {
-  console.log("You win!");
-} else {
-  console.log("Game not over yet.");
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            clearInterval(interval);
+            setTimeout(() => {
+                startTimer(duration, display); 
+            }, 1000);
+        }
+    }, 1000);
 }
 
-    })
-})
+window.onload = () => {
+    const tenMinutes = 60 * 10; // 10 minutes in seconds
+    const display = document.querySelector('#timer');
+    startTimer(tenMinutes, display);
+};
 
-// Moving the element
+
+let startTime;
+let endTime;
+let timeRanges = [];
+
+function setTime() {
+  startTime = new Date();
+}
+
+
+function addTimeRange() {
+    const nameInput = document.getElementById('name');
+    const name = nameInput.value;
+    const newTimeRange = {
+      id: timeRanges.length + 1,
+      userName: name,
+      endTime: formatTime(endTime), // pass endTime to formatTime
+      currentTime: formatTime(endTime),
+    };
+    timeRanges.push(newTimeRange);
+    console.log(timeRanges);
+    localStorage.setItem('timeRanges', JSON.stringify(timeRanges));
+    printTimeRanges()
+  }
+
+
+  function stopTimer() {
+      endTime = new Date();
+      addTimeRange();
+    }
+    setTime() 
+
+    const myElement = document.getElementById('stop-btn');
+
+   if (myElement) {
+       myElement.addEventListener('click', function() {
+           document.getElementById('stop-btn').addEventListener("click", stopTimer)
+       });
+   } else {
+       console.error('Element not found!');
+   }
+
+
+function printTimeRanges() {
+  const timeRangesDiv = document.getElementById('timeRangesDiv');
+  const storedTimeRanges = JSON.parse(localStorage.getItem('timeRanges'));
+  let html = '<table border="1">';
+  html += `
+    <tr>
+      <th>Id</th>
+      <th>User Name</th>
+      <th>Current Time</th>
+    </tr>
+  `;
+  storedTimeRanges.forEach((timeRange) => {
+    html += `
+      <tr>
+        <td>${timeRange.id}</td>
+        <td>${timeRange.userName} start game</td>
+        <td>${timeRange.currentTime}</td>
+      </tr>
+    `;
+  });
+  html += '</table>';
+  timeRangesDiv.innerHTML = html;
+}
+
+
+
+function formatTime(date) {
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `${pad(minutes)}:${pad(seconds)}`;
+}
+
+function pad(number) {
+  return (number < 10 ? '0' : '') + number;
+}
+
+
+
+
+// Moving the element  
 document.querySelectorAll('.box').forEach(hathiTest => {
 
     hathiTest.addEventListener('click', function () {
@@ -525,9 +628,6 @@ document.querySelectorAll('.box').forEach(hathiTest => {
     })
 
 })
-
-
-
 
 // Prvents from selecting multiple elements
 z = 0
