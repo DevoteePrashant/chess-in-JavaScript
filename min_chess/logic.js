@@ -1,10 +1,10 @@
-//inserting the images
 function insertImage() {
     document.querySelectorAll('.box').forEach(image => {
         if (image.innerText.length !== 0) {
             if (image.innerText == 'Wpawn' || image.innerText == 'Bpawn') {
                 image.innerHTML = `${image.innerText} <img class='all-img all-pown' src="${image.innerText}.png" alt="">`
                 image.style.cursor = 'pointer'
+                
             }
             else {
                 image.innerHTML = `${image.innerText} <img class='all-img' src="${image.innerText}.png" alt="">`
@@ -12,8 +12,33 @@ function insertImage() {
             }
         }
     })
+    let gameState = [];
+    document.querySelectorAll('li.box').forEach(liElement => {
+        gameState.push({
+            id: liElement.id,
+            text: liElement.textContent,
+            outerHTML: liElement.outerHTML,
+        });
+    });
+    localStorage.setItem('gameState 1', JSON.stringify(gameState));
 }
 insertImage()
+
+
+
+function saveGameState() {
+    // let gameState = [];
+    // document.querySelectorAll('li.box').forEach(liElement => {
+    //     gameState.push({
+    //         id: liElement.id,
+    //         text: liElement.textContent,
+    //         outerHTML: liElement.outerHTML
+    //     });
+    // });
+    // localStorage.setItem('gameState 2', JSON.stringify(gameState));
+}
+
+saveGameState();
 
 //Coloring the board
 
@@ -85,18 +110,37 @@ document.getElementById("reset-btn").addEventListener("click", function () {
 let gameEnded = false;
 tog = 1
 
+let timer = null;
+let timeLeft = 10 * 60; // 10 minutes in seconds
+let display = document.querySelector('#timer');
+
+function startTimer() {
+  clearInterval(timer);
+  timer = setInterval(() => {
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    timeLeft--;
+    if (timeLeft < 0) {
+      clearInterval(timer);
+    }
+  }, 1000); // update every 1 second
+}
+
+startTimer();
+
+
+
+
+
+
+
+
 document.querySelectorAll('.box').forEach(item => {
-
-
-
-
-
-
-
-
+    
 
     item.addEventListener('click', function () {
-
+        
         if (gameEnded) return; 
 
         if (item.style.backgroundColor == 'green' && item.innerText.length == 0) {
@@ -146,7 +190,10 @@ document.querySelectorAll('.box').forEach(item => {
             if (item.innerText == `${toggle}pawn`) {
                 item.style.backgroundColor = 'blue';
 
+           
                 if (tog % 2 !== 0 && aup < 800) {
+
+
                     // First move for white pawns
                     if (document.getElementById(`b${a + 100}`).innerText.length == 0) {
                         document.getElementById(`b${a + 100}`).style.backgroundColor = 'green';
@@ -483,39 +530,21 @@ document.querySelectorAll('.box').forEach(item => {
             document.getElementById('tog').innerText = "Black's Turn"
             whosTurn('B')
         }
-        
-        
-
         reddish()
-  })
+        startTimer();
+    })
 })
-   
-function startTimer(duration, display) {
-    let timer = duration, minutes, seconds;
-    
-    const interval = setInterval(() => {
-        minutes = Math.floor(timer / 60);
-        seconds = timer % 60;
-
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-
-        display.textContent = minutes + ":" + seconds;
-
-        if (--timer < 0) {
-            clearInterval(interval);
-            setTimeout(() => {
-                startTimer(duration, display); 
-            }, 1000);
-        }
-    }, 1000);
-}
-
-window.onload = () => {
+   window.onload = () => {
     const tenMinutes = 60 * 10; // 10 minutes in seconds
     const display = document.querySelector('#timer');
     startTimer(tenMinutes, display);
 };
+
+
+
+
+
+
 
 
 let startTime;
@@ -583,9 +612,6 @@ function printTimeRanges() {
   html += '</table>';
   timeRangesDiv.innerHTML = html;
 }
-
-
-
 function formatTime(date) {
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
@@ -595,11 +621,6 @@ function formatTime(date) {
 function pad(number) {
   return (number < 10 ? '0' : '') + number;
 }
-
-
-
-
-// Moving the element  
 document.querySelectorAll('.box').forEach(hathiTest => {
 
     hathiTest.addEventListener('click', function () {
@@ -617,16 +638,11 @@ document.querySelectorAll('.box').forEach(hathiTest => {
                         hathiTest2.innerText = blueText
                         coloring()
                         insertImage()
-
                     }
-
                 })
             })
-
         }
-
     })
-
 })
 
 // Prvents from selecting multiple elements
@@ -639,6 +655,3 @@ document.querySelectorAll('.box').forEach(ee => {
       }
   })
 })
-
-
-
