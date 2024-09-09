@@ -21,24 +21,68 @@ function insertImage() {
         });
     });
     localStorage.setItem('gameState 1', JSON.stringify(gameState));
+    
+    
+
+// // Retrieve the current game state from localStorage
+// let currentState = localStorage.getItem('gameState 1')
+
+// if (currentState === null) {
+//   console.error("No game state found in localStorage.");
+//   return;
+// }
+
+// try {
+//   // Parse the current state into a usable format (assuming it's a stringified JSON object)
+//   let gameState = JSON.parse(currentState);
+//   // Rest of your code...
+// } catch (error) {
+//   console.error("Error parsing game state:", error);
+//   return;
+// }
+
+// // Update the game state (e.g., move a piece, update the board, etc.)
+// // gameState.board[0][0] = 'new piece'; // Replace with your actual game logic
+
+// // Stringify the updated game state
+// let updatedState = JSON.stringify(gameState);
+
+// // Store the updated game state in localStorage
+// localStorage.setItem('gameState 1', updatedState);
+
+// // Add event listeners to the boxes
+// document.querySelectorAll('.box').forEach(item => {
+//   item.addEventListener('click', function () {
+//     updateGameState(); 
+//   });
+// });
+
+// // Define the updateGameState function
+// function updateGameState() {
+//   // Retrieve the updated game state from localStorage
+//   let currentState = localStorage.getItem('gameState 1');
+//   let gameState = JSON.parse(currentState);
+
+//   // Update the game state based on the clicked box (e.g., move a piece, update the board, etc.)
+//   // Replace with your actual game logic
+
+//   // Stringify the updated game state
+//   let updatedState = JSON.stringify(gameState);
+
+//   // Store the updated game state in localStorage
+//   localStorage.setItem('gameState 1', updatedState);
+// }
+
+
+
+
+
+
 }
+
 insertImage()
 
 
-
-function saveGameState() {
-    // let gameState = [];
-    // document.querySelectorAll('li.box').forEach(liElement => {
-    //     gameState.push({
-    //         id: liElement.id,
-    //         text: liElement.textContent,
-    //         outerHTML: liElement.outerHTML
-    //     });
-    // });
-    // localStorage.setItem('gameState 2', JSON.stringify(gameState));
-}
-
-saveGameState();
 
 //Coloring the board
 
@@ -128,13 +172,6 @@ function startTimer() {
 }
 
 startTimer();
-
-
-
-
-
-
-
 
 document.querySelectorAll('.box').forEach(item => {
     
@@ -535,13 +572,50 @@ document.querySelectorAll('.box').forEach(item => {
     })
 })
    window.onload = () => {
-    const tenMinutes = 60 * 10; // 10 minutes in seconds
+    const tenMinutes = 60 * 10; 
     const display = document.querySelector('#timer');
     startTimer(tenMinutes, display);
+    
+  
 };
 
 
 
+
+document.querySelectorAll('.box').forEach(hathiTest => {
+
+    hathiTest.addEventListener('click', function () {
+
+        if (hathiTest.style.backgroundColor == 'blue') {
+
+            blueId = hathiTest.id
+            blueText = hathiTest.innerText
+
+            document.querySelectorAll('.box').forEach(hathiTest2 => {
+
+                hathiTest2.addEventListener('click', function () {
+                    if (hathiTest2.style.backgroundColor == 'green' && hathiTest2.innerText.length == 0) {
+                        document.getElementById(blueId).innerText = ''
+                        hathiTest2.innerText = blueText
+                        coloring()
+                        insertImage()
+                    }
+                })
+            })
+        }
+    })
+})
+
+// Prvents from selecting multiple elements
+z = 0
+document.querySelectorAll('.box').forEach(ee => {
+  ee.addEventListener('click', function () {
+      z = z + 1
+      if (z % 2 == 0 && ee.style.backgroundColor !== 'green') {
+          coloring()
+      }
+  })
+})
 
 
 
@@ -621,37 +695,3 @@ function formatTime(date) {
 function pad(number) {
   return (number < 10 ? '0' : '') + number;
 }
-document.querySelectorAll('.box').forEach(hathiTest => {
-
-    hathiTest.addEventListener('click', function () {
-
-        if (hathiTest.style.backgroundColor == 'blue') {
-
-            blueId = hathiTest.id
-            blueText = hathiTest.innerText
-
-            document.querySelectorAll('.box').forEach(hathiTest2 => {
-
-                hathiTest2.addEventListener('click', function () {
-                    if (hathiTest2.style.backgroundColor == 'green' && hathiTest2.innerText.length == 0) {
-                        document.getElementById(blueId).innerText = ''
-                        hathiTest2.innerText = blueText
-                        coloring()
-                        insertImage()
-                    }
-                })
-            })
-        }
-    })
-})
-
-// Prvents from selecting multiple elements
-z = 0
-document.querySelectorAll('.box').forEach(ee => {
-  ee.addEventListener('click', function () {
-      z = z + 1
-      if (z % 2 == 0 && ee.style.backgroundColor !== 'green') {
-          coloring()
-      }
-  })
-})

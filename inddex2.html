@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess Game</title>
-    <link rel="stylesheet" href="style.css">
+<style></style>
 </head>
 <body>
     
@@ -113,6 +113,33 @@
 
     <div id="result"></div>
 
-  <script src="logic.js"></script>
+  <script >function insertImage() {
+    document.querySelectorAll('.box').forEach(image => {
+        if (image.innerText.length !== 0) {
+            if (image.innerText == 'Wpawn' || image.innerText == 'Bpawn') {
+                image.innerHTML = `${image.innerText} <img class='all-img all-pown' src="${image.innerText}.png" alt="">`
+                image.style.cursor = 'pointer'
+                
+                
+            }
+            else {
+                image.innerHTML = `${image.innerText} <img class='all-img' src="${image.innerText}.png" alt="">`
+                image.style.cursor = 'pointer'
+            }
+        }
+    })
+    let gameState = [];
+    document.querySelectorAll('li.box').forEach(liElement => {
+        gameState.push({
+            id: liElement.id,
+            text: liElement.textContent,
+            outerHTML: liElement.outerHTML,
+        });
+    });
+    localStorage.setItem('gameState 1', JSON.stringify(gameState));
+    
+}
+
+insertImage()</script>
 </body>
 </html>
