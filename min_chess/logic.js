@@ -1,17 +1,4 @@
 function insertImage() {
-    document.querySelectorAll('.box').forEach(image => {
-        if (image.innerText.length !== 0) {
-            if (image.innerText == 'Wpawn' || image.innerText == 'Bpawn') {
-                image.innerHTML = `${image.innerText} <img class='all-img all-pown' src="${image.innerText}.png" alt="">`
-                image.style.cursor = 'pointer'
-                
-            }
-            else {
-                image.innerHTML = `${image.innerText} <img class='all-img' src="${image.innerText}.png" alt="">`
-                image.style.cursor = 'pointer'
-            }
-        }
-    })
     let gameState = [];
     document.querySelectorAll('li.box').forEach(liElement => {
         gameState.push({
@@ -21,7 +8,20 @@ function insertImage() {
         });
     });
     localStorage.setItem('gameState 1', JSON.stringify(gameState));
-    
+  
+    document.querySelectorAll('.box').forEach(image => {
+        if (image.innerText.length !== 0) {
+            if (image.innerText == 'Wpawn' || image.innerText == 'Bpawn') {
+                image.innerHTML = `${image.innerText} <img class='all-img all-pown' src="${image.innerText}.png" alt="">`
+                image.style.cursor = 'pointer'  
+            }
+            else {
+                image.innerHTML = `${image.innerText} <img class='all-img' src="${image.innerText}.png" alt="">`
+                image.style.cursor = 'pointer'
+            }
+        }
+    })
+     
     
 
 // // Retrieve the current game state from localStorage
@@ -160,13 +160,20 @@ let display = document.querySelector('#timer');
 
 function startTimer() {
   clearInterval(timer);
+  timeLeft = 10 * 60;
   timer = setInterval(() => {
     let minutes = Math.floor(timeLeft / 60);
     let seconds = timeLeft % 60;
     display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     timeLeft--;
+
+
     if (timeLeft < 0) {
-      clearInterval(timer);
+        timeLeft = 10 * 60;
+        // count++
+        document.getElementById('message').innerText = ' now black player Time is close!';
+    }else{
+        document.getElementById('message').innerText = ' now white player Time is !'; 
     }
   }, 1000); // update every 1 second
 }
