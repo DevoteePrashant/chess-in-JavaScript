@@ -197,12 +197,12 @@ document.querySelectorAll('.box').forEach(item => {
 
                     // Check if the White King is captured
                         if (item.innerText == 'Wking') {
-                            document.getElementById('message').innerText = 'Bking wins!';
+                            document.getElementById('message2').innerText = 'Bking wins!';
                             gameEnded = true; 
                         }
 
                         if (item.innerText == 'Bking') {
-                            document.getElementById('message').innerText = 'wking wins!';
+                            document.getElementById('message2').innerText = 'wking wins!';
                             gameEnded = true; 
                         }
 
