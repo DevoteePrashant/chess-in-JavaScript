@@ -61,6 +61,12 @@ h1 {
     border-radius: 5px;
 }
 
+#demo{
+    width: 75px;
+    height: 55px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
+}
+
 #reset-btn ,.sumbmit {
     background-color: #607d83;
     border: none;

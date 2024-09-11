@@ -1,5 +1,6 @@
+let gameState = [];
 function insertImage() {
-    let gameState = [];
+    gameState = [];
     document.querySelectorAll('li.box').forEach(liElement => {
         gameState.push({
             id: liElement.id,
@@ -8,7 +9,6 @@ function insertImage() {
         });
     });
     localStorage.setItem('gameState 1', JSON.stringify(gameState));
-  
     document.querySelectorAll('.box').forEach(image => {
         if (image.innerText.length !== 0) {
             if (image.innerText == 'Wpawn' || image.innerText == 'Bpawn') {
@@ -21,66 +21,15 @@ function insertImage() {
             }
         }
     })
-     
-    
-
-// // Retrieve the current game state from localStorage
-// let currentState = localStorage.getItem('gameState 1')
-
-// if (currentState === null) {
-//   console.error("No game state found in localStorage.");
-//   return;
-// }
-
-// try {
-//   // Parse the current state into a usable format (assuming it's a stringified JSON object)
-//   let gameState = JSON.parse(currentState);
-//   // Rest of your code...
-// } catch (error) {
-//   console.error("Error parsing game state:", error);
-//   return;
-// }
-
-// // Update the game state (e.g., move a piece, update the board, etc.)
-// // gameState.board[0][0] = 'new piece'; // Replace with your actual game logic
-
-// // Stringify the updated game state
-// let updatedState = JSON.stringify(gameState);
-
-// // Store the updated game state in localStorage
-// localStorage.setItem('gameState 1', updatedState);
-
-// // Add event listeners to the boxes
-// document.querySelectorAll('.box').forEach(item => {
-//   item.addEventListener('click', function () {
-//     updateGameState(); 
-//   });
-// });
-
-// // Define the updateGameState function
-// function updateGameState() {
-//   // Retrieve the updated game state from localStorage
-//   let currentState = localStorage.getItem('gameState 1');
-//   let gameState = JSON.parse(currentState);
-
-//   // Update the game state based on the clicked box (e.g., move a piece, update the board, etc.)
-//   // Replace with your actual game logic
-
-//   // Stringify the updated game state
-//   let updatedState = JSON.stringify(gameState);
-
-//   // Store the updated game state in localStorage
-//   localStorage.setItem('gameState 1', updatedState);
-// }
-
-
-
-
-
+return gameState.map((data) => {
+    console.log(data);
+  });
 
 }
 
 insertImage()
+
+
 
 
 
@@ -582,8 +531,25 @@ document.querySelectorAll('.box').forEach(item => {
     const tenMinutes = 60 * 10; 
     const display = document.querySelector('#timer');
     startTimer(tenMinutes, display);
-    
-  
+   
+  gameState.map((data) => {
+        console.log(data);
+      });
+
+    //   if(localStorage){
+    //     localStorage.setItem('gameState',JSON.stringify(gameState))
+    //   }
+
+    //   if (localStorage) {
+    //     const savedScores = localStorage.getItem('gameState');
+    //     console.log(savedScores);
+    //     if (savedScores) {
+    //     scores = JSON.parse(savedScores) ;
+    //     } else {
+    //     console.log( 'localStorage is not supported');
+    //     } 
+    // }
+
 };
 
 
